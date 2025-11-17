@@ -1,7 +1,15 @@
 ﻿using sandbox_csharp.physicParams;
 
-LengthParam length = new(50);
-SpeedParam speed1 = new(25);
-SpeedParam speed2 = new(10);
-LengthParam length2 = length / speed1 * speed2;
-Console.WriteLine(length2.Value);
+AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
+{
+    Console.ForegroundColor = ConsoleColor.Red;
+    Console.WriteLine($"Необработанное исключение: {e.ExceptionObject.ToString()}");
+    Console.ResetColor();
+    Environment.Exit(1);
+};
+
+Length length = new(35, LengthUnits.METER);
+Speed speed1 = new(0);
+Speed speed2 = new(10);
+Length length2 = length / speed1 * speed2;
+Console.WriteLine(length2.ToString());
