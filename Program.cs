@@ -9,7 +9,7 @@ AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
 };
 
 Length length = new(35, LengthUnits.METER);
-Speed speed1 = new(0);
+Speed speed1 = new(10);
 Speed speed2 = new(10);
 Length length2 = length / speed1 * speed2;
 Console.WriteLine(length2.ToString());
