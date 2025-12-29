@@ -11,11 +11,24 @@ abstract class PhysicalValue<TUnits>(double value, TUnits unit, Dictionary<TUnit
 
     private static double ConvertToBase(double value, TUnits fromUnit, Dictionary<TUnits, double> ratios)
     {
+        ArgumentNullException.ThrowIfNull(ratios);
+        if (!ratios.ContainsKey(fromUnit))
+        {
+            throw new ArgumentException($"Unknown unit: {fromUnit}", nameof(fromUnit));
+        }
         return value * ratios[fromUnit];
     }
 
     public double GetInUnits(TUnits unit)
     {
+        if (Ratios is null)
+        {
+            throw new InvalidOperationException("Ratios dictionary is not initialized");
+        }
+        if (!Ratios.ContainsKey(unit))
+        {
+            throw new ArgumentException($"Unknown unit: {unit}", nameof(unit));
+        }
         return this.Value / Ratios[unit];
     }
 

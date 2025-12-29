@@ -4,14 +4,16 @@
 /// Класс для физических величин <b>Время</b>
 /// </summary>
 class Time(double value, TimeUnits unit = TimeUnits.SECOND)
-    : PhysicalValue<TimeUnits>(value, unit, new Dictionary<TimeUnits, double>
+    : PhysicalValue<TimeUnits>(value, unit, _ratios)
+{
+    private static readonly Dictionary<TimeUnits, double> _ratios = new()
     {
         [TimeUnits.SECOND] = 1.0,
         [TimeUnits.MINUTE] = 60.0,
         [TimeUnits.HOUR] = 3600.0,
         [TimeUnits.DAY] = 86400.0
-    })
-{
+    };
+
     protected override string GetUnitName(TimeUnits unit) => unit switch
     {
         TimeUnits.SECOND => "s",
@@ -25,6 +27,8 @@ class Time(double value, TimeUnits unit = TimeUnits.SECOND)
 
     public static Length operator *(Time a, Speed b)
     {
+        ArgumentNullException.ThrowIfNull(a);
+        ArgumentNullException.ThrowIfNull(b);
         return new Length(a.Value * b.Value);
     }
 }
